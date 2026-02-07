@@ -159,8 +159,124 @@ Estudiante *encontrarMejorNota(Estudiante *raiz)
     return mejor;
 }
 
-int main()
-{
-
+int main() {
+    Estudiante* sistema = NULL;
+    int opcion;
+    
+    do {
+        cout << "\n==== SISTEMA DE GESTION DE ESTUDIANTES =====" << endl;
+        cout << "1. Agregar estudiante (insertar)" << endl;
+        cout << "2. Mostrar todos los estudiantes" << endl;
+        cout << "3. Buscar estudiante por carnet" << endl;
+        cout << "4. Mostrar estudiantes aprobados" << endl;
+        cout << "5. Mostrar estudiantes reprobados" << endl;
+        cout << "6. Calcular promedio general" << endl;
+        cout << "7. Mostrar estudiante con mejor nota" << endl;
+        cout << "8. Salir" << endl;
+        cout << "Opcion: ";
+        cin >> opcion;
+        
+        switch(opcion) {
+            case 1: {
+                int carnet;
+                char nombre[50];
+                float nota;
+                
+                cout << "\n=== AGREGAR ESTUDIANTE ===" << endl;
+                cout << "Ingrese carnet: ";
+                cin >> carnet;
+                cout << "Ingrese nombre: ";
+                cin.ignore();
+                cin.getline(nombre, 50);
+                cout << "Ingrese nota: ";
+                cin >> nota;
+                
+                // Llamar a la función 1: insertar
+                sistema = insertar(sistema, carnet, nombre, nota);
+                cout << "\n✓ Estudiante agregado exitosamente!" << endl;
+                break;
+            }
+            case 2:
+                if (sistema == NULL) {
+                    cout << "\n✗ No hay estudiantes registrados." << endl;
+                } else {
+                    cout << "\n=== LISTA DE ESTUDIANTES (Ordenados por carnet) ===" << endl;
+                    // Llamar a la función 2: mostrarEstudiantes
+                    mostrarEstudiantes(sistema);
+                }
+                break;
+            case 3: {
+                int carnet;
+                cout << "\n=== BUSCAR ESTUDIANTE ===" << endl;
+                cout << "Ingrese carnet a buscar: ";
+                cin >> carnet;
+                // Llamar a la función 3: buscarEstudiante
+                buscarEstudiante(sistema, carnet);
+                break;
+            }
+            case 4:
+                if (sistema == NULL) {
+                    cout << "\n✗ No hay estudiantes registrados." << endl;
+                } else {
+                    cout << "\n=== ESTUDIANTES APROBADOS ===" << endl;
+                    // Llamar a la función 4: mostrarAprobados
+                    mostrarAprobados(sistema);
+                }
+                break;
+            case 5:
+                if (sistema == NULL) {
+                    cout << "\n✗ No hay estudiantes registrados." << endl;
+                } else {
+                    cout << "\n=== ESTUDIANTES REPROBADOS ===" << endl;
+                    // Llamar a la función 5: mostrarReprobados
+                    mostrarReprobados(sistema);
+                }
+                break;
+            case 6: {
+                int contador = 0;
+                float suma = 0.0;
+                // Llamar a la función 6: calcularPromedio
+                float promedio = calcularPromedio(sistema, &contador, &suma);
+                
+                if (contador == 0) {
+                    cout << "\n✗ No hay estudiantes registrados." << endl;
+                } else {
+                    cout << "\n=== PROMEDIO GENERAL ===" << endl;
+                    cout << "Total estudiantes: " << contador << endl;
+                    cout << "Suma de notas: " << suma << endl;
+                    cout << "Promedio: " << promedio << endl;
+                }
+                break;
+            }
+            case 7: {
+                // Llamar a la función 7: encontrarMejorNota
+                Estudiante* mejor = encontrarMejorNota(sistema);
+                if (mejor == NULL) {
+                    cout << "\n✗ No hay estudiantes registrados." << endl;
+                } else {
+                    cout << "\n=== ESTUDIANTE CON MEJOR NOTA ===" << endl;
+                    cout << "Carnet: " << mejor->carnet << endl;
+                    cout << "Nombre: " << mejor->nombre << endl;
+                    cout << "Nota: " << mejor->nota << endl;
+                }
+                break;
+            }
+            case 8:
+                cout << "\nSaliendo del sistema..." << endl;
+                break;
+            default:
+                cout << "\n✗ Opcion no valida. Intente de nuevo." << endl;
+        }
+        
+    } while(opcion != 8);
+    
+    while (sistema != NULL) {
+        
+        Estudiante* temp = sistema;
+        sistema = insertar(sistema->izquierdo, temp->carnet, temp->nombre, temp->nota);
+        delete temp;
+        
+    }
+    
     return 0;
 }
