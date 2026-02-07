@@ -88,6 +88,20 @@ void mostrarAprobados(Estudiante* raiz) {
     }
 }
 
+// 5. Mostrar estudiantes reprobados (nota < 6.0)
+void mostrarReprobados(Estudiante* raiz) {
+    if (raiz != NULL) {
+        mostrarReprobados(raiz->izquierdo);
+        if (raiz->nota < 6.0) {
+            cout << "\nCarnet: " << raiz->carnet 
+                 << "\nNombre: " << raiz->nombre 
+                 << "\nNota: " << raiz->nota 
+                 << "\n------------------------" << endl;
+        }
+        mostrarReprobados(raiz->derecho);
+    }
+}
+
 int main() {
     
     return 0;
